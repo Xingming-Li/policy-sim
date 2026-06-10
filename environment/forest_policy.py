@@ -2,11 +2,11 @@ class ForestPolicyEnvironment:
 
     def __init__(self):
 
-        self.forest_health = 0.7
+        self.forest_health = 0.70
 
-        self.economic_output = 0.7
+        self.economic_output = 0.70
 
-        self.public_support = 0.7
+    SENSITIVITY = 0.20
 
     def apply_policy(
         self,
@@ -15,11 +15,11 @@ class ForestPolicyEnvironment:
 
         self.forest_health += (
             0.5 - policy_position
-        ) * 0.1
+        ) * self.SENSITIVITY
 
         self.economic_output += (
             policy_position - 0.5
-        ) * 0.1
+        ) * self.SENSITIVITY
 
         self.forest_health = max(
             0,

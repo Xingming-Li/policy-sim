@@ -1,8 +1,27 @@
-def agreement_score(
-    positions
+def final_positions(
+    transcript
 ):
-    if not positions:
-        return 0
+
+    latest = {}
+
+    for msg in transcript:
+
+        latest[msg.sender] = (
+            msg.policy_position
+        )
+
+    return latest
+
+
+def agreement_score(
+    transcript
+):
+
+    positions = list(
+        final_positions(
+            transcript
+        ).values()
+    )
 
     spread = (
         max(positions)
@@ -10,4 +29,25 @@ def agreement_score(
         min(positions)
     )
 
-    return 1 - spread
+    return round(
+        1 - spread,
+        2
+    )
+
+
+def average_policy(
+    transcript
+):
+
+    positions = list(
+        final_positions(
+            transcript
+        ).values()
+    )
+
+    return round(
+        sum(positions)
+        /
+        len(positions),
+        2
+    )

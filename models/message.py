@@ -4,14 +4,17 @@ from datetime import datetime
 
 
 class Message(BaseModel):
+
     sender: str
+
+    target: str | None = None
 
     message_type: Literal[
         "proposal",
         "support",
         "oppose",
-        "question",
         "evidence",
+        "question",
         "commitment"
     ]
 
