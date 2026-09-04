@@ -2,19 +2,12 @@ from datetime import datetime
 
 from models.message import Message
 
-from simulation.metrics import (
-    agreement_score,
-    average_policy
-)
+from simulation.metrics import agreement_score, average_policy
 
 
 class Simulation:
 
-    def __init__(
-        self,
-        agents,
-        environment
-    ):
+    def __init__(self, agents, environment):
 
         self.agents = agents
 
@@ -22,42 +15,21 @@ class Simulation:
 
         self.transcript = []
 
-    def run(
-        self,
-        rounds=5
-    ):
+    def run(self, rounds=5):
 
-        valid_targets = [
-            agent.name
-            for agent in self.agents
-        ]
+        valid_targets = [agent.name for agent in self.agents]
 
         for round_id in range(rounds):
 
-            print(
-                f"\n===== ROUND {round_id + 1} ====="
-            )
+            print(f"\n===== ROUND {round_id + 1} =====")
 
-            latest_messages = (
-                self.transcript[-10:]
-            )
+            latest_messages = (self.transcript[-10:])
 
-            current_positions = [
-                agent.current_position
-                for agent in self.agents
-            ]
+            current_positions = [agent.current_position for agent in self.agents]
 
-            group_average = (
-                sum(current_positions)
-                /
-                len(current_positions)
-            )
+            group_average = (sum(current_positions) / len(current_positions))
 
-            spread = (
-                max(current_positions)
-                -
-                min(current_positions)
-            )
+            spread = (max(current_positions) - min(current_positions))
 
             round_positions = []
 
@@ -75,95 +47,46 @@ class Simulation:
                     )
                 )
 
-                position = float(
-                    action[
-                        "policy_position"
-                    ]
-                )
+                position = float(action["policy_position"])
 
                 agent.current_position = position
 
-                round_positions.append(
-                    position
-                )
+                round_positions.append(position)
 
                 message = Message(
                     sender=agent.name,
-                    target=action.get(
-                        "target"
-                    ),
-                    message_type=action[
-                        "message_type"
-                    ],
+                    target=action.get("target"),
+                    message_type=action["message_type"],
                     policy_position=position,
-                    content=action[
-                        "content"
-                    ],
+                    content=action["content"],
                     timestamp=datetime.now()
                 )
 
-                self.transcript.append(
-                    message
-                )
+                self.transcript.append(message)
 
-                print(
-                    f"\n{message.sender}"
-                )
+                print(f"\n{message.sender}")
 
-                print(
-                    f"target={message.target}"
-                )
+                print(f"target={message.target}")
 
-                print(
-                    f"type={message.message_type}"
-                )
+                print(f"type={message.message_type}")
 
-                print(
-                    f"position={message.policy_position}"
-                )
+                print(f"position={message.policy_position}")
 
-                print(
-                    message.content
-                )
+                print(message.content)
 
-            collective_policy = (
-                sum(round_positions)
-                /
-                len(round_positions)
-            )
+            collective_policy = (sum(round_positions) / len(round_positions))
 
-            self.environment.apply_policy(
-                collective_policy
-            )
+            self.environment.apply_policy(collective_policy)
 
-            print(
-                "\nEnvironment"
-            )
+            print("\nEnvironment")
 
-            print(
-                "forest_health:",
-                round(
-                    self.environment.forest_health,
-                    2
-                )
-            )
+            print("forest_health:", round(self.environment.forest_health, 2))
 
-            print(
-                "economic_output:",
-                round(
-                    self.environment.economic_output,
-                    2
-                )
-            )
+            print("economic_output:", round(self.environment.economic_output, 2))
 
-            print(
-                "agreement_score:",
-                agreement_score(self.transcript)
-            )
+            print("agreement_score:", agreement_score(self.transcript))
 
-            print(
-                "average_policy:",
-                average_policy(self.transcript)
-            )
+            print("average_policy:", average_policy(self.transcript))
 
         return self.transcript
+    

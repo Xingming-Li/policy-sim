@@ -16,14 +16,10 @@ class Memory:
 
         self.commitments.append(commitment)
 
-    def update_model(
-        self,
-        agent_name,
-        trust,
-        stance
-    ):
+    def update_model(self, agent_name, trust, stance):
 
         self.agent_models[agent_name] = {
             "trust": trust,
             "stance": stance
         }
+        

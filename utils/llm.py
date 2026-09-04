@@ -10,16 +10,9 @@ class LLMClient:
 
     def __init__(self):
 
-        self.client = OpenAI(
-            api_key=os.getenv(
-                "OPENAI_API_KEY"
-            )
-        )
+        self.client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-    def generate(
-        self,
-        prompt
-    ):
+    def generate(self, prompt):
 
         response = (
             self.client.chat.completions.create(
@@ -30,16 +23,10 @@ class LLMClient:
                         "content": prompt
                     }
                 ],
-                response_format={
-                    "type": "json_object"
-                },
+                response_format={"type": "json_object"},
                 temperature=0.7
             )
         )
 
-        return (
-            response
-            .choices[0]
-            .message
-            .content
-        )
+        return response.choices[0].message.content
+        

@@ -5,14 +5,7 @@ from memory.memory import Memory
 
 class Agent:
 
-    def __init__(
-        self,
-        name,
-        role,
-        goal,
-        preferred_position,
-        llm
-    ):
+    def __init__(self, name, role, goal, preferred_position, llm):
 
         self.name = name
         self.role = role
@@ -30,16 +23,7 @@ class Agent:
 
         self.memory.add_message(message)
 
-    def generate_response(
-        self,
-        latest_messages,
-        environment,
-        valid_targets,
-        round_id,
-        total_rounds,
-        group_average,
-        spread
-    ):
+    def generate_response(self, latest_messages, environment, valid_targets, round_id, total_rounds, group_average, spread):
 
         recent_context = "\n".join(
             [
@@ -50,10 +34,7 @@ class Agent:
             ]
         ) or "(no discussion yet)"
 
-        others = ", ".join(
-            t for t in valid_targets
-            if t != self.name
-        )
+        others = ", ".join(t for t in valid_targets if t != self.name)
 
         prompt = f"""
 You are {self.name}.
@@ -120,11 +101,9 @@ Return ONLY valid JSON. "target" must be exactly one of: {others}
         response = self.llm.generate(prompt)
 
         try:
-
             action = json.loads(response)
 
         except Exception:
-
             action = {}
 
         return self._sanitize(action, valid_targets)
@@ -143,30 +122,22 @@ Return ONLY valid JSON. "target" must be exactly one of: {others}
         target = action.get("target")
 
         if target not in valid_targets or target == self.name:
-
             target = None
 
         message_type = action.get("message_type")
 
         if message_type not in allowed_types:
-
             message_type = "proposal"
 
         try:
-
-            position = float(
-                action["policy_position"]
-            )
+            position = float(action["policy_position"])
 
         except (KeyError, TypeError, ValueError):
-
             position = self.current_position
 
         position = max(0.0, min(1.0, position))
 
-        content = action.get(
-            "content"
-        ) or "Maintain current position."
+        content = action.get("content") or "Maintain current position."
 
         return {
             "target": target,
@@ -174,3 +145,4 @@ Return ONLY valid JSON. "target" must be exactly one of: {others}
             "policy_position": position,
             "content": content
         }
+        

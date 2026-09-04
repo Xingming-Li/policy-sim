@@ -46,16 +46,9 @@ agents = [
     )
 ]
 
-environment = (
-    ForestPolicyEnvironment()
-)
+environment = ForestPolicyEnvironment()
 
-simulation = (
-    Simulation(
-        agents,
-        environment
-    )
-)
+simulation = Simulation(agents,environment)
 
 transcript = simulation.run(rounds=5)
 
@@ -67,14 +60,8 @@ print("\nFinal positions:")
 
 for agent, position in positions.items():
 
-    print(
-        f"{agent}: {position:.2f}"
-    )
+    print(f"{agent}: {position:.2f}")
 
-print(
-    f"\nAverage policy: {average_policy(transcript):.2f}"
-)
+print(f"\nAverage policy: {average_policy(transcript):.2f}")
 
-print(
-    f"Agreement score: {agreement_score(transcript):.2f}"
-)
+print(f"Agreement score: {agreement_score(transcript):.2f}")
