@@ -176,3 +176,5 @@ cython_debug/
 .vscode
 
 knowledge_base
+# Simulation run artifacts
+runs/
