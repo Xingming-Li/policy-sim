@@ -30,11 +30,13 @@ Reported each round (`rounds.jsonl`) and in the final summary (`summary.json`):
 
 ## Setup
 
+Requires Python 3.10 or newer.
+
 ```bash
 pip install -r requirements.txt
 ```
 
-Requires Python 3.10 or newer. Create a `.env` file with your OpenAI API key:
+Create a `.env` file with your OpenAI API key:
 
 ```
 OPENAI_API_KEY=sk-...

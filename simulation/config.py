@@ -22,7 +22,7 @@ Protocol = Literal["simultaneous", "sequential"]
 
 
 class AgentSpec(BaseModel):
-    """Declarative definition of one negotiating agent."""
+    """Definition of one negotiating agent."""
     # `extra="forbid"` means a typo in a config file is a startup
     # error rather than a silently ignored setting.
     model_config = ConfigDict(extra="forbid", frozen=True)

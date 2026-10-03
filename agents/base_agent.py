@@ -45,7 +45,7 @@ class Agent:
         llm: LLMClient,
         max_retries: int = 2,
     ) -> None:
-        self.spec = spec
+        
         self.name = spec.name
         self.role = spec.role
         self.goal = spec.goal
